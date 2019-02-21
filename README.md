@@ -5,14 +5,14 @@ sudo apt install docker docker-compose
 
 ### Build lkmikkel/docker-zephyr image
 ```shell
-git clone https://github.com/lkmikkel/docker-zephyr.git
+git clone https://github.com/darnia/docker-zephyr.git
 cd docker-zephyr
-docker build --force-rm -t lkmikkel/docker-zephyr .
+docker build --force-rm -t darnia/docker-zephyr .
 ```
 
 ### Create and run container
 ```shell
-docker run -u $(id -u):$(id -g) --privileged -ti -v /dev/bus/usb:/dev/bus/usb -v $HOME:/home/user -v /work:/work lkmikkel/docker-zephyr
+docker run -u $(id -u):$(id -g) --privileged -ti -v /dev/bus/usb:/dev/bus/usb -v $HOME:/home/user -v /work:/work darnia/docker-zephyr
 ```
 
 ### Checkout Zephyr in project directory
