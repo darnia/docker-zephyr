@@ -7,7 +7,7 @@ sudo apt install docker docker-compose
 ```shell
 git clone https://github.com/lkmikkel/docker-zephyr.git
 cd docker-zephyr
-docker build -t lkmikkel/docker-zephyr .
+docker build --force-rm -t lkmikkel/docker-zephyr .
 ```
 
 ### Create and run container
@@ -20,7 +20,7 @@ docker run -u $(id -u):$(id -g) --privileged -ti -v /dev/bus/usb:/dev/bus/usb -v
 mkdir -p /work/<project>
 cd /work/<project>
 git clone https://github.com/zephyrproject-rtos/zephyr
-git checkout v1.13.0
+git checkout v1.14.0-rc1
 ```
 
 ### Setup project and Zephyr Board + toolchain in direnv
@@ -53,5 +53,8 @@ cd $ZEPHYR_BASE/samples/basic/blinky
 mkdir build && cd build
 cmake ..
 make
-make flash
+cd zephyr
+nrfutil pkg generate --hw-version 52 --sd-req=0x00 \
+        --application zephyr.hex --application-version 1 pkg.zip
+nrfutil dfu usb-serial -pkg pkg.zip -p /dev/ttyACM0
 ```
