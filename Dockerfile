@@ -118,7 +118,7 @@ RUN pip install --upgrade pip
 # pyelftools in ubuntu repo too old
 RUN pip install pyelftools
 
-# Zephyr requires cmake version 3.8.2+
+# Zephyr requires cmake version 3.13.1+
 RUN wget https://cmake.org/files/v3.13/cmake-3.13.4-Linux-x86_64.sh -O /tmp/cmake.sh
 RUN sh /tmp/cmake.sh --skip-license
 RUN rm /tmp/cmake.sh
@@ -140,6 +140,11 @@ RUN rm /tmp/nRF5x-Command-Line-Tools.tar
 ENV PATH="$PATH:/usr/local/nrfjprog:/usr/local/mergehex"
 
 # End: nRF5x specific stuff
+
+# Update device-tree-compiler to 1.4.7
+RUN wget http://dk.archive.ubuntu.com/ubuntu/pool/main/d/device-tree-compiler/device-tree-compiler_1.4.7-1_amd64.deb -O /tmp/dtc.deb
+RUN apt-get install /tmp/dtc.deb
+RUN rm /tmp/dtc.deb
 
 # Generate and set a UTF-8 locale as default (required by yocto/bitbake)
 RUN locale-gen en_US.UTF-8
