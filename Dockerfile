@@ -54,6 +54,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         python-svn \
 	python-pip \
 	python-serial \
+	python-yaml \
 	python-setuptools \
     $(: Build infrastructure) \
         autoconf \
