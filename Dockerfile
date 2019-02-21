@@ -3,7 +3,7 @@ MAINTAINER Lasse K. Mikkelsen <lkmikkel@gmail.com>
 
 # Bring image up-to-date
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update; \
+RUN apt-get update && \
     apt-get upgrade -y;
 
 # Zephyr requires gcc for arm 7+
@@ -16,7 +16,7 @@ RUN add-apt-repository -y ppa:team-gcc-arm-embedded/ppa; \
 RUN echo "dash dash/sh boolean false" | debconf-set-selections; \
     dpkg-reconfigure dash
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     $(: Shell and core utilities) \
         apt-utils \
         bash \
@@ -52,11 +52,9 @@ RUN apt-get install -y --no-install-recommends \
         python-pkg-resources \
         python-pycurl \
         python-svn \
-        python3 \
-	python3-pip \
-	python3-setuptools \
-	python3-wheel \
-	python3-yaml \
+	python-pip \
+	python-serial \
+	python-setuptools \
     $(: Build infrastructure) \
         autoconf \
         automake \
@@ -112,21 +110,23 @@ RUN apt-get install -y --no-install-recommends \
   	ccache \
 	dfu-util \
 	usbutils \
-    ; \
+    && \
         apt-get clean
 
+RUN pip install --upgrade pip
+
 # pyelftools in ubuntu repo too old
-RUN pip3 install pyelftools
+RUN pip install pyelftools
 
 # Zephyr requires cmake version 3.8.2+
-RUN wget https://cmake.org/files/v3.12/cmake-3.12.3-Linux-x86_64.sh -O /tmp/cmake.sh
+RUN wget https://cmake.org/files/v3.13/cmake-3.13.4-Linux-x86_64.sh -O /tmp/cmake.sh
 RUN sh /tmp/cmake.sh --skip-license
 RUN rm /tmp/cmake.sh
 
 # Start: nRF5x specific stuff
 
 # Install nrfutil for nRF52840-dongle
-RUN pip3 install nrfutil
+RUN pip install nrfutil
 
 # Install Segger JLink from website
 RUN wget https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.deb --post-data="accept_license_agreement=accepted&submit=Download software" -O /tmp/jlink.deb
