@@ -52,10 +52,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         python-pkg-resources \
         python-pycurl \
         python-svn \
-	python-pip \
-	python-serial \
-	python-yaml \
-	python-setuptools \
+        python-pip \
+        python-serial \
+        python-setuptools \
+        python3 \
+        python3-dev \
+        python3-magic \
+        python3-pkg-resources \
+        python3-pycurl \
+	python3-pip \
+	python3-serial \
+	python3-setuptools \
     $(: Build infrastructure) \
         autoconf \
         automake \
@@ -115,19 +122,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         apt-get clean
 
 RUN pip install --upgrade pip
+RUN pip3 install --upgrade pip
 
 # pyelftools in ubuntu repo too old
-RUN pip install pyelftools
+RUN pip3 install pyelftools
 
 # Zephyr requires cmake version 3.13.1+
 RUN wget https://cmake.org/files/v3.13/cmake-3.13.4-Linux-x86_64.sh -O /tmp/cmake.sh
 RUN sh /tmp/cmake.sh --skip-license
 RUN rm /tmp/cmake.sh
 
+RUN pip3 install west
+
 # Start: nRF5x specific stuff
 
 # Install nrfutil for nRF52840-dongle
-RUN pip install nrfutil
+RUN pip2 install nrfutil
 
 # Install Segger JLink from website
 RUN wget https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.deb --post-data="accept_license_agreement=accepted&submit=Download software" -O /tmp/jlink.deb
