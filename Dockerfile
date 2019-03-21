@@ -140,7 +140,7 @@ RUN pip3 install west
 RUN pip2 install nrfutil
 
 # Install Segger JLink from website
-RUN wget https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.deb --post-data="accept_license_agreement=accepted&submit=Download software" -O /tmp/jlink.deb
+RUN wget https://www.segger.com/downloads/jlink/JLink_Linux_x86_64.deb --post-data="accept_license_agreement=accepted&non_emb_ctr=confirmed&submit=Download software" -O /tmp/jlink.deb
 RUN dpkg -i /tmp/jlink.deb
 RUN rm /tmp/jlink.deb
 
